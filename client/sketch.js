@@ -1,6 +1,6 @@
 let playerX = 340;
 let playerY = 180;
-let direction = null;
+let direction = null; // left, right, up, down
 
 const speed = 5;
 const fr = 20;
@@ -57,19 +57,15 @@ function draw() {
 function keyPressed() {
   switch (key) {
     case "ArrowLeft":
-      console.log("left pressed");
       direction = "left";
       break;
     case "ArrowRight":
-      console.log("right pressed");
       direction = "right";
       break;
     case "ArrowUp":
-      console.log("up pressed");
       direction = "up";
       break;
     case "ArrowDown":
-      console.log("down pressed");
       direction = "down";
       break;
     }
