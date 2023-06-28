@@ -20,15 +20,15 @@ function draw() {
     switch (direction) {
       case "left": {
         if(playerX > 0) {
-          playerX -=speed;
+          playerX -= speed;
         } else {
           playerX = 720;
         }
         break;
       }
       case "right": {
-        if(playerX < 700) {
-          playerX +=speed;  
+        if(playerX < 700) { // bcse of the player size, so canvas boundaries - player size
+          playerX += speed;  
         } else {
           playerX = 0;
         }
@@ -38,12 +38,12 @@ function draw() {
         if(playerY > 0) {
           playerY -= speed;  
         } else {
-          playerY = 380
+          playerY = 380 // same
         }
         break;
       }
       case "down": {
-        if(playerY < 380) {
+        if(playerY < 380) { // same
         playerY += speed;
         } else {
           playerY = 0;
