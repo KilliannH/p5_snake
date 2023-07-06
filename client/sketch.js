@@ -35,6 +35,11 @@ function setup() {
 }
 
 function draw() {
+  const fruitTouched = fruitIsTouched();
+
+  if(fruitTouched) {
+    genFruit();
+  }
 
   for(let i = 0; i < nbHorizontal; i++) {
     for(let j = 0; j < nbVertical; j++) {
@@ -43,9 +48,7 @@ function draw() {
   }
 
   cells[playerPos.x][playerPos.y].color = defaultPlayerColor;
-
-  // -1 bcse index 20 doesnt exists, same for index 36
-  cells[fruitPos.x -1][fruitPos.y -1].color = {r: 0, g: 0, b: 200};
+  cells[fruitPos.x][fruitPos.y].color = {r: 0, g: 0, b: 200};
 
   for(let i = 0; i < nbHorizontal; i++) {
     for(let j = 0; j < nbVertical; j++) {
@@ -55,16 +58,32 @@ function draw() {
 
   switch (direction) {
     case "left":
-      playerPos.x--;
+      if(playerPos.x > 0) {
+        playerPos.x--;
+      } else {
+        playerPos.x = nbHorizontal -1;
+      }
       break;
     case "right":
-      playerPos.x++;
+      if(playerPos.x < nbHorizontal -1) {
+        playerPos.x++;
+      } else {
+        playerPos.x = 0;
+      }
       break;
     case "up":
-      playerPos.y--;
+      if(playerPos.y > 0) {
+        playerPos.y--;
+      } else {
+        playerPos.y = nbVertical -1;
+      }
       break;
     case "down":
-      playerPos.y++;
+      if(playerPos.y < nbVertical -1) {
+        playerPos.y++;
+      } else {
+        playerPos.y = 0;
+      }
       break;
   }
 }
@@ -87,10 +106,15 @@ function keyPressed() {
 }
 
 function genFruit() {
-  let posX1 = randomIntFromInterval(playerPos.x +3, nbHorizontal);
+
+  if (playerPos.x + 3 > nbHorizontal) {
+
+  }
+
+  let posX1 = randomIntFromInterval(playerPos.x +3, nbHorizontal -1);
   let posX2 = randomIntFromInterval(0, playerPos.x -3);
 
-  let posY1 = randomIntFromInterval(playerPos.y +3, nbVertical);
+  let posY1 = randomIntFromInterval(playerPos.y +3, nbVertical -1);
   let posY2 = randomIntFromInterval(0, playerPos.y -3);
 
   let posX, posY;
@@ -99,6 +123,19 @@ function genFruit() {
 
   randFloor = randomFloor();
   posY = randFloor === 1 ? posY1 : posY2;
+
+  // check for boundaries
+  if (playerPos.x + 3 > nbHorizontal) {
+   posX = posX2; 
+  } else if (playerPos.x -3 < 0) {
+    posX = posX1;
+  }
+
+  if(playerPos.y + 3 > nbVertical) {
+    posY = posY2;
+  } else if (playerPos.y -3 < 0) {
+    posY = posY1;
+  }
 
   if(posX === 0) {
     posX = 1;
@@ -110,9 +147,10 @@ function genFruit() {
 
   fruitPos.x = posX;
   fruitPos.y = posY;
+}
 
-  // TODO -- handle case x + 3 or y + 3 is out of bounds.
-  // reroll
+function fruitIsTouched() {
+  return playerPos.x === fruitPos.x && playerPos.y === fruitPos.y;
 }
 
 function randomIntFromInterval(min, max) { // min and max included 
