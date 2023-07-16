@@ -5,6 +5,7 @@ html,body {
   }
   /* button layout */
 .buttons-container {
+  width: 720px;
   margin-top: 5%;
   display: flex;
   align-items: center;
