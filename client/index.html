@@ -4,14 +4,36 @@
   <meta charset="UTF-8" />
   <title>p5 Snake</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
+  <meta name="description" content="A snake game made with p5.js" />
   <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css">
   <script src="lib/p5.min.js" rel="javascript"></script>
   <script src="Cell.js" rel="javascript"></script>
   <script src="sketch.js" rel="javascript"></script>
 </head>
 <body>
-    <main>
-    </main>
+    <main></main>
+    <div class="buttons-container">
+      <div class="directional-buttons">
+        <button onclick="changeDirection('up');" class="direction-button up">
+          <span class="visually-hidden">up</span>
+        </button>
+        <button onclick="changeDirection('left');" class="direction-button left">
+          <span class="visually-hidden">left</span>
+        </button>
+        <button onclick="changeDirection('right');" class="direction-button right">
+          <span class="visually-hidden">right</span>
+        </button>
+        <button onclick="changeDirection('down');" class="direction-button down">
+          <span class="visually-hidden">down</span>
+        </button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      function changeDirection(val) {
+        // direction is defined inside sketch.js
+        direction = val;
+      }
+    </script>
 </body>
 </html>

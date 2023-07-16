@@ -43,6 +43,8 @@ function draw() {
   if(fruitTouched) {
     snakeBody.push({x: playerPos.x, y: playerPos.y});
     genFruit();
+    console.log(fruitPos);
+    console.log(cells[fruitPos.x][fruitPos.y]);
   }
 
   for(let i = 0; i < nbHorizontal; i++) {
@@ -152,7 +154,7 @@ function genFruit() {
   let posY1 = randomIntFromInterval(playerPos.y +3, nbVertical -1);
   let posY2 = randomIntFromInterval(0, playerPos.y -3);
 
-  let posX, posY;
+  let posX, posY = null;
   let randFloor = randomFloor();
   posX = randFloor === 1 ? posX1 : posX2;
 
@@ -180,17 +182,20 @@ function genFruit() {
     posY = 1;
   }
 
-  if(posX > nbHorizontal || posX < 0) { // invalid pos
+  if(posX >= nbHorizontal || posX < 0) { // invalid pos
     genFruit();
+    return;
   }
 
-  if(posY > nbVertical || posY < 0) { // invalid pos
+  if(posY >= nbVertical || posY < 0) { // invalid pos
     genFruit();
+    return;
   }
 
   for(let i = 0; i < snakeBody.length; i++) {
     if(posX === snakeBody[i].x && posY === snakeBody[i].y) {
       genFruit();
+      return;
     }
   }
 
