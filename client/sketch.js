@@ -2,7 +2,7 @@ let playerX = 340;
 let playerY = 180;
 let direction = null; // left, right, up, down
 
-let defaultPlayerColor = {r: 40, g: 40, b: 40};
+let defaultPlayerColor = {r: 200, g: 200, b: 200};
 
 const fr = 6;
 
@@ -11,7 +11,7 @@ const nbVertical = 20;
 
 const cells = [];
 
-const snakeBody = [];
+let snakeBody = [];
 
 let playerPos = {x: null, y: null};
 let fruitPos = {x: null, y: null};
@@ -19,7 +19,7 @@ let fruitPos = {x: null, y: null};
 
 function setup() {
   // Create the canvas
-  background(200);
+  background(40);
   frameRate(fr);
   createCanvas(720, 400);
 
@@ -35,7 +35,7 @@ function setup() {
 
   snakeBody.push({x: playerPos.x, y: playerPos.y});
   genFruit();
-  
+
   console.log(fruitPos);
   console.log(cells);
 }
@@ -50,7 +50,7 @@ function draw() {
 
   for(let i = 0; i < nbHorizontal; i++) {
     for(let j = 0; j < nbVertical; j++) {
-      cells[i][j].color = {r: 200, g: 200, b: 200};  
+      cells[i][j].color = {r: 40, g: 40, b: 40};  
     }
   }
 
@@ -63,14 +63,26 @@ function draw() {
     snakeBody[0] = {x: playerPos.x, y: playerPos.y};
   }
 
+  for(let i = 0; i < snakeBody.length; i++) {
+    if(i > 0) {
+      if(playerPos.x === snakeBody[i].x && playerPos.y === snakeBody[i].y) {
+        alert("Game over");
+        handleGameOver();
+      }
+    }
+  }
+
   console.log(snakeBody);
 
   for(let i = 0; i < snakeBody.length; i++) {
-    cells[snakeBody[i].x][snakeBody[i].y].color = defaultPlayerColor;  
+    if(i === 0) { // head
+      cells[snakeBody[i].x][snakeBody[i].y].color = {r: 255, g: 255, b: 255};  
+    } else {
+      cells[snakeBody[i].x][snakeBody[i].y].color = defaultPlayerColor;  
+    }
   }
 
-  cells[playerPos.x][playerPos.y].color = defaultPlayerColor;
-  cells[fruitPos.x][fruitPos.y].color = {r: 0, g: 0, b: 200};
+  cells[fruitPos.x][fruitPos.y].color = {r: 237, g: 34, b: 93};
 
   for(let i = 0; i < nbHorizontal; i++) {
     for(let j = 0; j < nbVertical; j++) {
@@ -127,11 +139,17 @@ function keyPressed() {
     }
 }
 
+function handleGameOver() {
+  direction = null;
+  playerPos.x = nbHorizontal / 2 - 1;
+  playerPos.y = nbVertical / 2 - 1;
+
+  snakeBody = [];
+  snakeBody.push({x: playerPos.x, y: playerPos.y});
+  genFruit();
+}
+
 function genFruit() {
-
-  if (playerPos.x + 3 > nbHorizontal) {
-
-  }
 
   let posX1 = randomIntFromInterval(playerPos.x +3, nbHorizontal -1);
   let posX2 = randomIntFromInterval(0, playerPos.x -3);
@@ -165,6 +183,14 @@ function genFruit() {
   
   if(posY === 0) {
     posY = 1;
+  }
+
+  if(posX > nbHorizontal || posX < 0) { // invalid pos
+    genFruit();
+  }
+
+  if(posY > nbVertical || posY < 0) { // invalid pos
+    genFruit();
   }
 
   fruitPos.x = posX;
