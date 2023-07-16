@@ -35,9 +35,6 @@ function setup() {
 
   snakeBody.push({x: playerPos.x, y: playerPos.y});
   genFruit();
-
-  console.log(fruitPos);
-  console.log(cells);
 }
 
 function draw() {
@@ -71,8 +68,6 @@ function draw() {
       }
     }
   }
-
-  console.log(snakeBody);
 
   for(let i = 0; i < snakeBody.length; i++) {
     if(i === 0) { // head
