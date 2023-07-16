@@ -10,8 +10,12 @@ const nbHorizontal = 36;
 const nbVertical = 20;
 
 const cells = [];
+
+const snakeBody = [];
+
 let playerPos = {x: null, y: null};
 let fruitPos = {x: null, y: null};
+
 
 function setup() {
   // Create the canvas
@@ -29,7 +33,9 @@ function setup() {
   playerPos.x = nbHorizontal / 2 - 1;
   playerPos.y = nbVertical / 2 - 1;
 
+  snakeBody.push({x: playerPos.x, y: playerPos.y});
   genFruit();
+  
   console.log(fruitPos);
   console.log(cells);
 }
@@ -38,6 +44,7 @@ function draw() {
   const fruitTouched = fruitIsTouched();
 
   if(fruitTouched) {
+    snakeBody.push({x: playerPos.x, y: playerPos.y});
     genFruit();
   }
 
@@ -45,6 +52,21 @@ function draw() {
     for(let j = 0; j < nbVertical; j++) {
       cells[i][j].color = {r: 200, g: 200, b: 200};  
     }
+  }
+
+  // body of snake will grow
+  for (let i = snakeBody.length - 1; i > 0; i--) {
+    // it will store previous part of snake to the current part
+    snakeBody[i] = snakeBody[i - 1];
+  }
+  if (snakeBody.length) {
+    snakeBody[0] = {x: playerPos.x, y: playerPos.y};
+  }
+
+  console.log(snakeBody);
+
+  for(let i = 0; i < snakeBody.length; i++) {
+    cells[snakeBody[i].x][snakeBody[i].y].color = defaultPlayerColor;  
   }
 
   cells[playerPos.x][playerPos.y].color = defaultPlayerColor;
