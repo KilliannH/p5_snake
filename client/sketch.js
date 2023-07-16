@@ -193,6 +193,12 @@ function genFruit() {
     genFruit();
   }
 
+  for(let i = 0; i < snakeBody.length; i++) {
+    if(posX === snakeBody[i].x && posY === snakeBody[i].y) {
+      genFruit();
+    }
+  }
+
   fruitPos.x = posX;
   fruitPos.y = posY;
 }
